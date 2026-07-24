@@ -40,14 +40,5 @@ public:
 	
 	virtual TSharedPtr<IMediaPlayer, ESPMode::ThreadSafe> CreatePlayer(IMediaEventSink& EventSink) override;
 
-	/**
-	 * Get all currently active players.
-	 * Dead references are pruned automatically.
-	 */
-	TArray<TSharedPtr<IMediaPlayer, ESPMode::ThreadSafe>> GetActivePlayers();
-
 	libvlc_instance_t* VlcInstance;
-
-private:
-	TArray<TWeakPtr<IMediaPlayer, ESPMode::ThreadSafe>> ActivePlayers;
 };

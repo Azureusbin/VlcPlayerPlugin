@@ -123,31 +123,8 @@ void FVlcPlayerModule::ShutdownModule()
 
 TSharedPtr<IMediaPlayer, ESPMode::ThreadSafe> FVlcPlayerModule::CreatePlayer(IMediaEventSink& EventSink)
 {
-	TSharedPtr<FVlcPlayer> NewPlayer = MakeShared<FVlcPlayer>(EventSink, VlcInstance);
-	ActivePlayers.Add(NewPlayer);
-	return NewPlayer;
+	return MakeShared<FVlcPlayer>(EventSink, VlcInstance);
 }
-
-TArray<TSharedPtr<IMediaPlayer, ESPMode::ThreadSafe>> FVlcPlayerModule::GetActivePlayers()
-{
-	TArray<TSharedPtr<IMediaPlayer, ESPMode::ThreadSafe>> Result;
-
-	for (int32 i = ActivePlayers.Num() - 1; i >= 0; --i)
-	{
-		TSharedPtr<IMediaPlayer, ESPMode::ThreadSafe> Pinned = ActivePlayers[i].Pin();
-		if (Pinned.IsValid())
-		{
-			Result.Add(Pinned);
-		}
-		else
-		{
-			ActivePlayers.RemoveAt(i);
-		}
-	}
-
-	return Result;
-}
-
 #undef LOCTEXT_NAMESPACE
 	
 IMPLEMENT_MODULE(FVlcPlayerModule, VlcPlayer)
